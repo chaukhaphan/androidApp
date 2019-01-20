@@ -1,0 +1,8 @@
+﻿  ispeed.cpp
+c:\users\jack\desktop\ispeed\ispeed\ispeed.cpp(162): warning C4101: 'n': unreferenced local variable
+c:\users\jack\desktop\ispeed\ispeed\ispeed.cpp(765): warning C4101: 'n': unreferenced local variable
+c:\users\jack\desktop\ispeed\ispeed\ispeed.cpp(763): warning C4101: 'buffer': unreferenced local variable
+c:\users\jack\desktop\ispeed\ispeed\ispeed.cpp(880): warning C4101: 'len': unreferenced local variable
+c:\users\jack\desktop\ispeed\ispeed\ispeed.cpp(880): warning C4101: 'n': unreferenced local variable
+c:\users\jack\desktop\ispeed\ispeed\ispeed.cpp(867): warning C4101: 'buffer': unreferenced local variable
+  ispeed.vcxproj -> C:\Users\Jack\Desktop\ispeed\Debug\ispeed.exe
