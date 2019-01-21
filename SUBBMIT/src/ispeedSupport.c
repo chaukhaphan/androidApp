@@ -1094,7 +1094,7 @@ void getIPLinux(char IP[BUFSIZ])
 void getIPWIN(char *ip)
 {
 	int i;
-
+#ifdef _WIN32
 	// Variables used by GetIpAddrTable
 	PMIB_IPADDRTABLE pIPAddrTable;
 	DWORD dwSize = 0;
@@ -1156,4 +1156,6 @@ void getIPWIN(char *ip)
 		FREE(pIPAddrTable);
 		pIPAddrTable = NULL;
 	}
+	#else
+	#endif
 }
