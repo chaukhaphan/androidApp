@@ -38,12 +38,12 @@ int server(int PORT)
 		return 1;
 	}
 
-	get_local_server_ip_address(ip);
-	printf("SERVER IP: %s\n", ip);
+	getIPWIN(ip);
+	//printf("\tServer IP Address:     \t%s\n", ip);
 #else
 	char server_ip[BUFSIZ] = "";
 	getIPLinux(server_ip);
-	printf("SERVER IP: %s\n", server_ip);
+	printf("\tServer IP Address:     \t%s\n", server_ip);
 #endif
 
 
@@ -1014,56 +1014,6 @@ void parseClientMSG(char *buffer, char *CONN_TYPE, char *BLOCK_SIZE, char *NUM_B
 
 
 
-// make sure you link with WSOCK32.LIB
-// LITTLEENDIAN already defined in winsock2.h
-
-int get_local_server_ip_address(char *ip)
-{
-	unsigned int addr;
-	struct hostent *hp;
-	char *localip = (char *)"127.0.0.1";
-	char buf[512];
-
-	gethostname(buf, 512);
-	addr = inet_addr(buf);
-	if (addr == 0xFFFFFFFF) {
-		hp = gethostbyname(buf);
-		if (hp == NULL)
-			return 0;
-		addr = *((unsigned int *)hp->h_addr_list[0]);
-	}
-	else {
-		hp = gethostbyaddr((char *)&addr, 4, AF_INET);
-		if (hp == NULL)
-			return 0;
-		addr = *((unsigned int *)hp->h_addr_list[0]);
-	}
-	sprintf(ip, "%d.%d.%d.%d",
-		(addr & 0xFF),
-		((addr >> 8) & 0xFF),
-		((addr >> 16) & 0xFF),
-		((addr >> 24) & 0xFF)
-	);
-	// #ifdef LITTLEENDIAN
-	// 	sprintf(ip, "%d.%d.%d.%d",
-	// 		(addr & 0xFF),
-	// 		((addr >> 8) & 0xFF),
-	// 		((addr >> 16) & 0xFF),
-	// 		((addr >> 24) & 0xFF)
-	// 	);
-	// #else
-	// 	sprintf(ip, "%d.%d.%d.%d",
-	// 		((addr >> 24) & 0xFF),
-	// 		((addr >> 16) & 0xFF),
-	// 		((addr >> 8) & 0xFF),
-	// 		(addr & 0xFF)
-	// 	);
-	// #endif
-
-	return 1;
-}	/* end get_local_server_ip_addres */
-
-
 
 
 static double TimeSpecToSeconds(struct timespec* ts)
@@ -1137,3 +1087,73 @@ void getIPLinux(char IP[BUFSIZ])
 }
 #endif
 
+
+
+
+
+void getIPWIN(char *ip)
+{
+	int i;
+
+	// Variables used by GetIpAddrTable
+	PMIB_IPADDRTABLE pIPAddrTable;
+	DWORD dwSize = 0;
+	DWORD dwRetVal = 0;
+	IN_ADDR IPAddr;
+	// Variables used to return error message
+	LPVOID lpMsgBuf;
+
+	// Before calling AddIPAddress we use GetIpAddrTable to get
+	// an adapter to which we can add the IP.
+	pIPAddrTable = (MIB_IPADDRTABLE *)MALLOC(sizeof(MIB_IPADDRTABLE));
+	if (pIPAddrTable)
+	{
+		// Make an initial call to GetIpAddrTable to get the
+		// necessary size into the dwSize variable
+		if (GetIpAddrTable(pIPAddrTable, &dwSize, 0) == ERROR_INSUFFICIENT_BUFFER)
+		{
+			FREE(pIPAddrTable);
+			pIPAddrTable = (MIB_IPADDRTABLE *)MALLOC(dwSize);
+			if (pIPAddrTable == NULL)
+			{
+				exit(1);
+			}
+		}
+	}
+
+	// Make a second call to GetIpAddrTable to get the actual data we want
+	if ((dwRetVal = GetIpAddrTable(pIPAddrTable, &dwSize, 0)) != NO_ERROR)
+	{
+		if (FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM |
+			FORMAT_MESSAGE_IGNORE_INSERTS, NULL, dwRetVal,
+			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),       // Default language
+			(LPTSTR)& lpMsgBuf, 0, NULL))
+		{
+			printf("\tError: %s", lpMsgBuf);
+			LocalFree(lpMsgBuf);
+		}
+		exit(1);
+	}
+
+	for (i = 0; i < (int)pIPAddrTable->dwNumEntries; i++)
+	{
+		//if (pIPAddrTable->table[i].dwIndex == EXPECTED_INDEX)
+		//{
+		//	IPAddr.S_un.S_addr = (u_long)pIPAddrTable->table[i].dwAddr;
+		//	strcpy(ip, inet_ntoa(IPAddr));
+		//	break;
+		//}
+		printf("\n\tInterface Index[%d]:\t%ld\n", i, pIPAddrTable->table[i].dwIndex);
+		IPAddr.S_un.S_addr = (u_long)pIPAddrTable->table[i].dwAddr;
+		printf("\tIP Address[%d]:     \t%s\n", i, inet_ntoa(IPAddr));
+		IPAddr.S_un.S_addr = (u_long)pIPAddrTable->table[i].dwMask;
+		printf("\tSubnet Mask[%d]:    \t%s\n", i, inet_ntoa(IPAddr));
+	}
+
+
+	if (pIPAddrTable)
+	{
+		FREE(pIPAddrTable);
+		pIPAddrTable = NULL;
+	}
+}
