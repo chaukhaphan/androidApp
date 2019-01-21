@@ -1129,7 +1129,7 @@ void getIPWIN(char *ip)
 			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),       // Default language
 			(LPTSTR)& lpMsgBuf, 0, NULL))
 		{
-			printf("\tError: %s", lpMsgBuf);
+			printf("\tError: %s", (char *)lpMsgBuf);
 			LocalFree(lpMsgBuf);
 		}
 		exit(1);

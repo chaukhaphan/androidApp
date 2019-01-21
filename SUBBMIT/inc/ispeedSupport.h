@@ -23,8 +23,11 @@
 #include <winsock2.h>
 #include <Ws2tcpip.h>
 #include <windows.h>
+#include <iphlpapi.h>
+
 #pragma comment(lib, "iphlpapi.lib")
 #pragma comment (lib, "Ws2_32.lib")
+#pragma comment(lib, "ws2_32.lib")
 #pragma warning(disable:4996)
 
 #define EXPECTED_INDEX 7
