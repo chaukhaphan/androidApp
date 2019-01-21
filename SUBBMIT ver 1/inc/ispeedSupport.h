@@ -1,11 +1,3 @@
-//* FILE			: ispeedSupport.h
-//* PROJECT			: Industrial Application Development - Assignment 1
-//* PROGRAMMER		: Kha Phan
-//* FIRST VERSON	: Jan 21, 2018
-//* DESCRIPTION		: The file declare all library, prototypes, constant using in the application
-
-
-
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -19,7 +11,8 @@
 
 
 #define MAXLINE 1024
-
+#define MALLOC(x) HeapAlloc(GetProcessHeap(), 0, (x))
+#define FREE(x) HeapFree(GetProcessHeap(), 0, (x))
 
 
 #ifdef _WIN32
@@ -42,16 +35,16 @@ void getIPWIN(char *ip);
 
 #define bzero(b,len) (memset((b), '\0', (len)), (void) 0)
 #define bcopy(b1,b2,len) (memmove((b2), (b1), (len)), (void) 0)
-#define MALLOC(x) HeapAlloc(GetProcessHeap(), 0, (x))
-#define FREE(x) HeapFree(GetProcessHeap(), 0, (x))
+
 #pragma comment(lib, "iphlpapi.lib")
 #else
+/* Assume that any non-Windows platform uses POSIX-style sockets instead. */
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#include <netdb.h>
-#include <unistd.h>
+#include <netdb.h>  /* Needed for getaddrinfo() and freeaddrinfo() */
+#include <unistd.h> /* Needed for close() */
 #include <sys/time.h>
-#include<errno.h>
+#include<errno.h> //errno
 #include <netinet/ip.h>
 #include<ifaddrs.h>
 #define NANO_PER_SEC 1000000000.0
@@ -60,8 +53,6 @@ void getIPLinux(char IP[BUFSIZ]);
 #endif
 
 
-
-//	PROTOTYPE
 int sockInit(void);
 int myMax(int x, int y);
 void parseClientMSG(char *buffer, char *CONN_TYPE, char *BLOCK_SIZE, char *NUM_BLOCKS);
@@ -70,6 +61,7 @@ static double TimeSpecToSeconds(struct timespec* ts);
 char *buildData(int NUM_BLOCKS, int BLOCK_SIZE);
 void goSleep(int second);
 void closeSocket(int socket);
+
 int server(int PORT);
 int TCPIPClient(int PORT, char* ADDRESS, int NUM_BLOCKS, int BLOCK_SIZE);
 int UDPClient(int PORT, char* ADDRESS, int NUM_BLOCKS, int BLOCK_SIZE);

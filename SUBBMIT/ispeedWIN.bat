@@ -1,85 +1,103 @@
-ECHO ===============================================================
-ECHO Testing #1 
-ECHO Protocol              : TCP
-ECHO Number of Blocks Sent : 1000 bytes
-ECHO Number of Blocks      : 50000
-ECHO ===============================================================
+@ECHO off
+Cls
+ECHO:
+ECHO == WE ARE TESTING THE SPEED OF TCP/IP AND UDP. PLEASE ENTER THE FOLLOWING INFORMATION ==
+ECHO:
 
-CALL %1 -TCP -a %2 -p %3 -s 1000 -n 50000
+SET /p filename=Please enter the executable file path:
+SET /p IP=Please enter the IP: 
+SET /p port=Please enter the PORT: 
+ECHO:
+ECHO ======================= WE ARE TESTING TCP ===========================
+timeout /t 3 /nobreak
+ECHO: 
+ECHO:
+ECHO SEND #1: 
+ECHO Type: TCP, IP:%IP%, Block Size: 1000, Number of Block: 1000
+ECHO RECIEVE #1:
+CALL %filename% -TCP -a %IP% -p %port% -s 1000 -n 1000
 timeout /t 3 /nobreak
 
-ECHO ===============================================================
-ECHO Testing #2 
-ECHO Protocol              : TCP
-ECHO Number of Blocks Sent : 2000 bytes
-ECHO Number of Blocks      : 25000 
-ECHO ===============================================================
-
-
-CALL %1 -TCP -a %2 -p %3 -s 2000 -n 25000
+ECHO: 
+ECHO:
+ECHO SEND #2: 
+ECHO Type: TCP, IP:%IP%, Block Size: 2000, Number of Block: 1000
+ECHO RECIEVE #2:
+CALL %filename% -TCP -a %IP% -p %port% -s 2000 -n 1000
 timeout /t 3 /nobreak
 
-ECHO ===============================================================
-ECHO Testing #3 
-ECHO Protocol              : TCP
-ECHO Number of Blocks Sent : 5000 bytes
-ECHO Number of Blocks      : 10000 
-ECHO ===============================================================
-
-
-CALL %1 -TCP -a %2 -p %3 -s 5000 -n 10000
+ECHO: 
+ECHO:
+ECHO SEND #3: 
+ECHO Type: TCP, IP:%IP%, Block Size: 5000, Number of Block: 800
+ECHO RECIEVE #3:
+CALL %filename% -TCP -a %IP% -p %port% -s 5000 -n 800
 timeout /t 3 /nobreak
 
-ECHO ===============================================================
-ECHO Testing #4 
-ECHO Protocol              : TCP
-ECHO Number of Blocks Sent : 10000 bytes
-ECHO Number of Blocks      : 5000 
-ECHO ===============================================================
+ECHO: 
+ECHO:
+ECHO SEND #4: 
+ECHO Type: TCP, IP:%IP%, Block Size: 10000, Number of Block: 500
+ECHO RECIEVE #5:
+CALL %filename% -TCP -a %IP% -p %port% -s 10000 -n 500
+timeout /t 3 /nobreak
 
-
-CALL %1 -TCP -a %2 -p %3 -s 10000 -n 5000
+ECHO: 
+ECHO:
+ECHO SEND #5: 
+ECHO Type: TCP, IP:%IP%, Block Size: 1000, Number of Block: 2000
+ECHO RECIEVE #2:
+CALL %filename% -TCP -a %IP% -p %port% -s 1000 -n 2000
 timeout /t 3 /nobreak
 
 
-ECHO ===============================================================
-ECHO Testing #5 
-ECHO Protocol              : UDP
-ECHO Number of Blocks Sent : 1000 bytes
-ECHO Number of Blocks      : 50000 
-ECHO ===============================================================
 
-CALL %1 -UDP -a %2 -p %3 -s 1000 -n 50000
-timeout /t 5 /nobreak
+ECHO:
+ECHO:
 
-ECHO ===============================================================
-ECHO Testing #6 
-ECHO Protocol              : UDP
-ECHO Number of Blocks Sent : 2000 bytes
-ECHO Number of Blocks      : 25000 
-ECHO ===============================================================
-
-CALL %1 -UDP -a %2 -p %3 -s 2000 -n 25000
-timeout /t 5 /nobreak
-
-ECHO ===============================================================
-ECHO Testing #7 
-ECHO Protocol              : UDP
-ECHO Number of Blocks Sent : 5000 bytes
-ECHO Number of Blocks      : 10000 
-ECHO ===============================================================
-
-CALL %1 -UDP -a %2 -p %3 -s 5000 -n 10000
-timeout /t 5 /nobreak
-
-ECHO ===============================================================
-ECHO Testing #8 
-ECHO Protocol              : UDP
-ECHO Number of Blocks Sent : 10000 bytes
-ECHO Number of Blocks      : 5000 
-ECHO ===============================================================
-
-CALL %1 -UDP -a %2 -p %3 -s 10000 -n 5000
+ECHO ======================= WE ARE TESTING UDP ===========================
+timeout /t 3 /nobreak
+ECHO: 
+ECHO:
+ECHO SEND #1: 
+ECHO Type: UDP, IP:%IP%, Block Size: 1000, Number of Block: 1000
+ECHO RECIEVE #1:
+CALL %filename% -UDP -a %IP% -p %port% -s 1000 -n 1000
+timeout /t 3 /nobreak
 
 
-ECHO ==  All tests are done!  ==
+ECHO: 
+ECHO:
+ECHO SEND #2: 
+ECHO Type: UDP, IP:%IP%, Block Size: 2000, Number of Block: 1000
+ECHO RECIEVE #2:
+CALL %filename% -UDP -a %IP% -p %port% -s 2000 -n 1000
+timeout /t 3 /nobreak
+
+
+ECHO: 
+ECHO:
+ECHO SEND #3: 
+ECHO Type: UDP, IP:%IP%, Block Size: 5000, Number of Block: 800
+ECHO RECIEVE #3:
+CALL %filename% -UDP -a %IP% -p %port% -s 10000 -n 500
+timeout /t 3 /nobreak
+
+
+ECHO: 
+ECHO:
+ECHO SEND #4: 
+ECHO Type: UDP, IP:%IP%, Block Size: 10000, Number of Block: 500
+ECHO RECIEVE #4:
+CALL %filename% -UDP -a %IP% -p %port% -s 10000 -n 500
+timeout /t 3 /nobreak
+
+
+ECHO: 
+ECHO:
+ECHO SEND #5: 
+ECHO Type: UDP, IP:%IP%, Block Size: 1000, Number of Block: 2000
+ECHO RECIEVE #5:
+CALL %filename% -TCP -a %IP% -p %port% -s 1000 -n 2000
+
+ECHO =================================================

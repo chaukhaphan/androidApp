@@ -1,12 +1,4 @@
 
-//* FILE			: ispeed.c
-//* PROJECT			: Industrial Application Development - Assignment 1
-//* PROGRAMMER		: Kha Phan
-//* FIRST VERSON	: Jan 21, 2018
-//* DESCRIPTION		: The file the main function of the application
-
-
-
 #ifdef _WIN32
 #include "../inc/ispeedSupport.h"
 #else
